@@ -80,15 +80,13 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     } = props;
 
     const mergedLocale = useMemo(
-      () => ({
-        picker: locale?.picker ?? defaultLocale.picker,
-        pickerDescription:
-          locale?.pickerDescription ?? defaultLocale.pickerDescription,
-        hue: locale?.hue ?? defaultLocale.hue,
-        alpha: locale?.alpha ?? defaultLocale.alpha,
-        saturation: locale?.saturation ?? defaultLocale.saturation,
-        brightness: locale?.brightness ?? defaultLocale.brightness,
-      }),
+      () =>
+        Object.fromEntries(
+          Object.entries(defaultLocale).map(([key, value]) => [
+            key,
+            locale?.[key as keyof typeof defaultLocale] ?? value,
+          ]),
+        ) as typeof defaultLocale,
       [locale],
     );
 
